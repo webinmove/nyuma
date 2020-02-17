@@ -1,7 +1,7 @@
 # Nyuma
 
 [![Continuous Integration](https://github.com/webinmove/nyuma/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/webinmove/nyuma/actions)
-[![Coverage Status](https://coveralls.io/repos/github/webinmove/nyuma/badge.svg?branch=master)](https://coveralls.io/github/webinmove/nyuma?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/webinmove/nyuma/badge.svg?branch=refs/heads/master)](https://coveralls.io/github/webinmove/nyuma?branch=refs/heads/master)
 [![npm version](https://img.shields.io/npm/v/@webinmove/nyuma.svg)](https://www.npmjs.com/package/@webinmove/nyuma)
 [![Dependency Status](https://david-dm.org/webinmove/nyuma.svg)](https://david-dm.org/webinmove/nyuma)
 
