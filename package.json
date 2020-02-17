@@ -1,0 +1,67 @@
+{
+  "name": "@webinmove/nyuma",
+  "version": "1.0.0",
+  "description": "Retry an async function with different strategies",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "format": "semistandard --fix",
+    "test:spec": "mocha --recursive",
+    "test:lint": "semistandard --verbose | snazzy",
+    "test:cover": "nyc --reporter=text-summary --reporter=html npm run test:spec",
+    "test:coveralls": "nyc npm run test:spec && nyc report --reporter=text-lcov | coveralls",
+    "test": "npm run test:lint && npm run test:cover"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webinmove/nyuma.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webinmove/nyuma/issues"
+  },
+  "homepage": "https://github.com/webinmove/nyuma#readme",
+  "keywords": [
+    "retry",
+    "retries",
+    "backoff",
+    "attempt",
+    "async",
+    "promise",
+    "rejected"
+  ],
+  "author": "@oliviercuyp",
+  "contributors": [],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "coveralls": "^3.0.9",
+    "express": "^4.17.1",
+    "mocha": "^7.0.1",
+    "nyc": "^15.0.0",
+    "semistandard": "^14.2.0",
+    "snazzy": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=8.3"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
+  },
+  "semistandard": {
+    "globals": [
+      "describe",
+      "it",
+      "before",
+      "after",
+      "beforeEach",
+      "afterEach"
+    ]
+  }
+}
