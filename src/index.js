@@ -1,6 +1,6 @@
-const Nyuma = require('./src/Nyuma');
-const ExponentialStrategy = require('./src/strategies/Exponential');
-const FibonacciStrategy = require('./src/strategies/Fibonacci');
+const Nyuma = require('./Nyuma');
+const ExponentialStrategy = require('./strategies/Exponential');
+const FibonacciStrategy = require('./strategies/Fibonacci');
 
 module.exports.Nyuma = Nyuma;
 module.exports.ExponentialStrategy = ExponentialStrategy;
