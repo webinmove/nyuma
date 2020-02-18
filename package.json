@@ -1,6 +1,6 @@
 {
   "name": "@webinmove/nyuma",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Retry an async function with different strategies",
   "main": "src/index.js",
   "directories": {
