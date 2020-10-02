@@ -180,7 +180,7 @@ describe('Nyuma', () => {
     });
   });
 
-  it('should return special error when 1st try exceed max time', async () => {
+  it('should return default error when 1st try exceed max time', async () => {
     const nyuma = new Nyuma({
       initialDelay: 10,
       maxTime: 100
@@ -191,7 +191,23 @@ describe('Nyuma', () => {
     });
 
     await expect(promise).to.eventually.be.rejectedWith(
-      'First try exceeded maximum time'
+      'First try reached max time'
+    );
+  });
+
+  it('should return custom error when 1st try exceed max time', async () => {
+    const nyuma = new Nyuma({
+      initialDelay: 10,
+      maxTime: 100,
+      maxTimeError: 'Custom max time reached error'
+    });
+
+    const promise = nyuma.start(() => {
+      return new Promise(resolve => setTimeout(resolve, 1000));
+    });
+
+    await expect(promise).to.eventually.be.rejectedWith(
+      'Custom max time reached error'
     );
   });
 });

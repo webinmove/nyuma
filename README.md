@@ -58,6 +58,7 @@ const main = async () => {
     maxDelay: 10000,
     maxRetries: 3,
     maxTime: 60000,
+    maxTimeError: 'First fetch was too long',
     factor: 3
   });
 
@@ -134,21 +135,11 @@ Returns a Nyuma instance initialized with the fibonacci strategy and the params.
 
 **params**
 
-- initialDelay: delay in ms for the first retry
-- maxDelay: maximum delay can reach before a retry
-- maxRetries: maximum retries before throwing the last error encounter
-- maxTime: maximum time for the first try and all retries before throwing the last error encounter or a specific error if the first try was too long
-
-### fibonacci(params)
-
-Returns a Nyuma instance initialized with the fibonacci strategy and the params.
-
-**params**
-
 - initialDelay: delay in ms for the first retry (required)
 - maxDelay: maximum delay can reach before a retry (optional, default Infinity)
 - maxRetries: maximum retries before throwing the last error encounter (optional, default Infinity)
 - maxTime: maximum time for the first try and all retries before throwing the last error encounter or a specific error if the first try was too long (optional, default Infinity)
+- maxTimeError: error message in case the first try was too long (optional, dafault "First try reached max time")
 
 *Note: you should specify at least a maxRetries or a maxTime*
 
@@ -158,10 +149,12 @@ Returns a Nyuma instance initialized with the exponential strategy and the param
 
 **params**
 
+- factor: exponential factor used to compute the delays (optional, default 2)
 - initialDelay: delay in ms for the first retry (required)
 - maxDelay: maximum delay can reach before a retry (optional, default Infinity)
 - maxRetries: maximum retries before throwing the last error encounter (optional, default Infinity)
 - maxTime: maximum time for the first try and all retries before throwing the last error encounter or a specific error if the first try was too long (optional, default Infinity)
+- maxTimeError: error message in case the first try was too long (optional, dafault "First try reached max time")
 
 *Note: you should specify at least a maxRetries or a maxTime*
 
@@ -178,6 +171,7 @@ Returns a Nyuma instance initialized with the params.
 - maxDelay: maximum delay can reach before a retry (optional, default Infinity)
 - maxRetries: maximum retries before throwing the last error encounter (optional, default Infinity)
 - maxTime: maximum time for the first try and all retries before throwing the last error encounter or a specific error if the first try was too long (optional, default Infinity)
+- maxTimeError: error message in case the first try was too long (optional, dafault "First try reached max time")
 
 *Note: you should specify at least a maxRetries or a maxTime*
 

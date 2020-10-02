@@ -6,7 +6,8 @@ module.exports = class Nyuma {
     initialDelay = 0,
     maxDelay = Infinity,
     maxRetries = Infinity,
-    maxTime = Infinity
+    maxTime = Infinity,
+    maxTimeError = 'First try reached max time'
   } = {}) {
     if (initialDelay <= 0) {
       throw new Error('Inital delay must be greater than 0');
@@ -15,8 +16,9 @@ module.exports = class Nyuma {
     this.strategy = strategy;
     this.initialDelay = initialDelay;
     this.maxDelay = maxDelay;
-    this.maxTime = maxTime;
     this.maxRetries = maxRetries;
+    this.maxTime = maxTime;
+    this.maxTimeError = maxTimeError;
 
     this.retryCount = 0;
     this.delay = 0;
@@ -37,6 +39,10 @@ module.exports = class Nyuma {
   }
 
   start (fn) {
+    if (this.startTime) {
+      throw new Error('Nyuma already started');
+    }
+
     this.fn = fn;
     this.stop = false;
     this.startTime = Date.now();
@@ -48,7 +54,7 @@ module.exports = class Nyuma {
         timer = setTimeout(() => {
           this.stop = true;
           const error = this.lastError ||
-            new Error('First try exceeded maximum time');
+            new Error(this.maxTimeError);
 
           this.onFail({
             reason: 'Max time reached',
