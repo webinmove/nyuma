@@ -62,19 +62,19 @@ const main = async () => {
     factor: 3
   });
 
-  nyuma.failHook(({ reason, retryCount, lastDelay, duration }) =>
-    console.log({ reason, retryCount, lastDelay, duration })
-  );
-
   try {
-    const body = await nyuma.start(async () => {
-      const response = await fetch('https://api.github.com/repos/webinmove/nyuma');
-      if (response.status >= 400) {
-        throw new Error(`Call responded with status ${response.status}`);
-      }
+    const body = await nyuma
+      .failHook(({ reason, retryCount, lastDelay, duration }) =>
+        console.log({ reason, retryCount, lastDelay, duration })
+      )
+      .start(async () => {
+        const response = await fetch('https://api.github.com/repos/webinmove/nyuma');
+        if (response.status >= 400) {
+          throw new Error(`Call responded with status ${response.status}`);
+        }
 
-      return response.json();
-    });
+        return response.json();
+      });
 
     console.log(body);
   } catch (err) {
