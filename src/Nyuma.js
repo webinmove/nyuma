@@ -23,11 +23,18 @@ module.exports = class Nyuma {
     this.retryCount = 0;
     this.delay = 0;
     this.lastError = null;
+    this.onRetry = () => {};
     this.onFail = () => {};
   }
 
   failHook (onFail) {
     this.onFail = onFail;
+
+    return this;
+  }
+
+  retryHook (onRetry) {
+    this.onRetry = onRetry;
 
     return this;
   }
@@ -88,6 +95,7 @@ module.exports = class Nyuma {
         return;
       }
       this.lastError = err;
+
       if (this.retryCount >= this.maxRetries) {
         this.onFail({
           reason: 'Max retries reached',
@@ -98,6 +106,13 @@ module.exports = class Nyuma {
 
         throw this.lastError;
       }
+
+      this.onRetry({
+        error: this.lastError,
+        retryCount: this.retryCount,
+        lastDelay: this.delay,
+        duration: this.getDuration()
+      });
 
       const strategyDelay = this.initialDelay * this.strategy.next();
       this.delay = Math.min(strategyDelay, this.maxDelay);

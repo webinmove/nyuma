@@ -154,6 +154,62 @@ describe('Nyuma', () => {
     await expect(promise).to.eventually.be.rejectedWith(error);
   });
 
+  it('should trigger retry hook on first error', async () => {
+    const nyuma = new Nyuma({
+      initialDelay: 10,
+      maxTime: 100
+    });
+    let capturedFailInfo;
+    let error;
+
+    nyuma.retryHook((failInfo) => {
+      capturedFailInfo = failInfo;
+    });
+
+    try {
+      await nyuma.start((retryCount, delay) => {
+        if (retryCount < 2) {
+          error = new Error('Try again');
+          throw error;
+        }
+      });
+    } catch (err) {}
+
+    expect(capturedFailInfo).to.deep.include({
+      error,
+      retryCount: 1,
+      lastDelay: 10
+    });
+  });
+
+  it('should chain on retry hook', async () => {
+    const nyuma = new Nyuma({
+      initialDelay: 10,
+      maxTime: 100
+    });
+    let capturedFailInfo;
+    let error;
+
+    try {
+      await nyuma
+        .retryHook((failInfo) => {
+          capturedFailInfo = failInfo;
+        })
+        .start((retryCount, delay) => {
+          if (retryCount < 2) {
+            error = new Error('Try again');
+            throw error;
+          }
+        });
+    } catch (err) {}
+
+    expect(capturedFailInfo).to.deep.include({
+      error,
+      retryCount: 1,
+      lastDelay: 10
+    });
+  });
+
   it('should trigger fail hook when max time is reached', async () => {
     const nyuma = new Nyuma({
       initialDelay: 10,
@@ -171,6 +227,32 @@ describe('Nyuma', () => {
           throw new Error('Try again');
         }
       });
+    } catch (err) {}
+
+    expect(capturedFailInfo).to.deep.include({
+      reason: 'Max time reached',
+      retryCount: 3,
+      lastDelay: 80
+    });
+  });
+
+  it('should chain on fail hook', async () => {
+    const nyuma = new Nyuma({
+      initialDelay: 10,
+      maxTime: 100
+    });
+    let capturedFailInfo;
+
+    try {
+      await nyuma
+        .failHook((failInfo) => {
+          capturedFailInfo = failInfo;
+        })
+        .start((retryCount, delay) => {
+          if (retryCount < 10) {
+            throw new Error('Try again');
+          }
+        });
     } catch (err) {}
 
     expect(capturedFailInfo).to.deep.include({
