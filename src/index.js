@@ -7,11 +7,12 @@ module.exports.ExponentialStrategy = ExponentialStrategy;
 module.exports.FibonacciStrategy = FibonacciStrategy;
 
 module.exports.exponential = ({
+  factor,
   initialDelay,
   maxDelay,
   maxRetries,
   maxTime,
-  factor
+  maxTimeError
 }) => {
   const strategy = new ExponentialStrategy({ factor });
 
@@ -20,7 +21,8 @@ module.exports.exponential = ({
     initialDelay,
     maxDelay,
     maxRetries,
-    maxTime
+    maxTime,
+    maxTimeError
   });
 };
 
@@ -28,7 +30,8 @@ module.exports.fibonacci = ({
   initialDelay,
   maxDelay,
   maxRetries,
-  maxTime
+  maxTime,
+  maxTimeError
 }) => {
   const strategy = new FibonacciStrategy();
 
@@ -37,6 +40,7 @@ module.exports.fibonacci = ({
     initialDelay,
     maxDelay,
     maxRetries,
-    maxTime
+    maxTime,
+    maxTimeError
   });
 };
