@@ -28,6 +28,8 @@ module.exports = class Nyuma {
 
   failHook (onFail) {
     this.onFail = onFail;
+
+    return this;
   }
 
   getDuration () {
