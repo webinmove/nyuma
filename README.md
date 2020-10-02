@@ -64,8 +64,11 @@ const main = async () => {
 
   try {
     const body = await nyuma
+      .retryHook(({ error, retryCount, lastDelay, duration }) =>
+        console.log('Retry with:', { error, retryCount, lastDelay, duration })
+      )
       .failHook(({ reason, retryCount, lastDelay, duration }) =>
-        console.log({ reason, retryCount, lastDelay, duration })
+        console.log('Failed with:', { reason, retryCount, lastDelay, duration })
       )
       .start(async () => {
         const response = await fetch('https://api.github.com/repos/webinmove/nyuma');
